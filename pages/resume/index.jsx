@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import NavBar from '@/components/NavBar/NavBar';
 import ResumeContext from '@/components/Context/ResumeContext';
 import ClassicTheme from '@/components/Themes/Classic/ClassicTheme';
 import Sidebar from '@/components/Sidebar/Sidebar';

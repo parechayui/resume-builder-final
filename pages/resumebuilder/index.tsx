@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import ResumeContext from "./Context/ResumeContext";
-import Theme1 from "./Theme/Theme1";
+import Theme1 from "./Theme/ClassicTheme";
 import Sidebar from "./sidebar/Sidebar";
 import ResumeState from "./Context/ResumeState";
 import NavBar from "./NavBar";

@@ -101,11 +101,12 @@ const ClassicTheme = (props) => {
                     </div>
                     <div className="text-center">
                       <a
-                        href={formData.portfolio}
+                        href={formData.websiteUrl}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="d-inline-flex align-items-center"
                       >
-                        <FaGlobe className="icons" /> myportfolio
+                        <FaGlobe className="me-2" /> myportfolio
                       </a>
                     </div>
                   </div>
