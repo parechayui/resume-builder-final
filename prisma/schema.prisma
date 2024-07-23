@@ -67,7 +67,11 @@ model User {
   accounts    Account[]
   sessions    Session[]
   invitations Invitation[]
+  baseResumes BaseResume[]
+  jobDescriptions JobDescription[]
+  customizedResumes CustomizedResume[]
 }
+
 
 model Team {
   id              String       @id @default(uuid())
@@ -217,4 +221,50 @@ model jackson_ttl {
 
   @@index([expiresAt], map: "_jackson_ttl_expires_at")
   @@ignore
+}
+
+//This is related to Resume Builder
+
+model BaseResume {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  resume    Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  customizedResumes CustomizedResume[]
+
+  @@index([userId])
+}
+
+model JobDescription {
+  id          String   @id @default(uuid())
+  userId      String
+  description Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  customizedResumes CustomizedResume[]
+
+  @@index([userId])
+}
+
+model CustomizedResume {
+  id               String   @id @default(uuid())
+  userId           String
+  baseResumeId     String
+  jobDescriptionId String
+  resume           Json
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  baseResume BaseResume @relation(fields: [baseResumeId], references: [id], onDelete: Cascade)
+  jobDescription JobDescription @relation(fields: [jobDescriptionId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([baseResumeId])
+  @@index([jobDescriptionId])
 }
