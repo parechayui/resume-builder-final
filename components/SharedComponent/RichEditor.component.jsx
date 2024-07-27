@@ -52,7 +52,7 @@ const RichEditor = ({ initialData, handleDataChange, showCustomButtons }) => {
           : []
       }
       toolbar={{
-        options: ['inline', 'blockType', 'list', 'link', 'history'],
+        options: ['inline', 'blockType', 'list', 'history'],
         inline: {
           options: ['bold', 'italic', 'underline'],
         },
