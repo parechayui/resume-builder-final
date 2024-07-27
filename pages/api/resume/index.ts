@@ -1,9 +1,8 @@
-import { slugify } from '@/lib/server-common';
 import { ApiError } from '@/lib/errors';
-import { saveBaseResume, getBaseResume } from 'models/manageBaseResume';
+import { createBaseResume, getBaseResume } from 'models/baseResume';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
-import { createTeamSchema, validateWithSchema } from '@/lib/zod';
+import { baseResumeSchema, validateWithSchema } from '@/lib/zod';
 import { getCurrentUser } from 'models/user';
 
 export default async function handler(
@@ -34,34 +33,34 @@ export default async function handler(
   }
 }
 
-// Get teams
+// Get base resume
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const user = await getCurrentUser(req, res);
-  const teams = await getResume(user.id);
+ const user = await getCurrentUser(req, res);
+ const baseResume = await getBaseResume({userId: "12e1a4de-4598-48f1-ae83-f02b3c1a08ae"});
 
-  recordMetric('team.fetched');
+ // recordMetric('team.fetched');
 
-  res.status(200).json({ data: teams });
-};
+  res.status(200).json({ data: baseResume });
+}
 
-// Create a team
+// Create a base resume
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { name } = validateWithSchema(createTeamSchema, req.body);
-
   const user = await getCurrentUser(req, res);
-  const slug = slugify(name);
-
-  if (await isTeamExists(slug)) {
-    throw new ApiError(400, 'A team with the slug already exists.');
-  }
-
-  const team = await saveResume({
+  const baseResume = await createBaseResume({
     userId: user.id,
-    name,
-    slug,
+    resume: req.body.resume,
+    keywords: req.body.keywords
   });
 
-  recordMetric('team.created');
+ // recordMetric('team.created');
 
-  res.status(200).json({ data: team });
+  res.status(200).json({ data: baseResume }); 
+ 
+
+
+
+
+ // recordMetric('baseResume.created');
+
+ // res.status(200).json({ data: baseResume });
 };

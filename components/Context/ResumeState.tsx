@@ -15,9 +15,16 @@ const ResumeState = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/db.json'); // Replace with the actual path to your db.json
+
+        // const initialData = await fetch('/api/teams/', {
+        //   method: 'POST',
+        //   headers: defaultHeaders,
+        //   body: JSON.stringify(values),
+        // });
+      
+        const response = await axios.get('/api/resume/'); // Replace with the actual path to your db.json
         console.log(response)
-        setFormData(response.data.resumeInitialData);
+        setFormData(response.data.data.resume);
         setLoading(false); // Set loading to false once data is fetched
       } catch (err) {
         setError(err);
