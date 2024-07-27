@@ -14,14 +14,7 @@ const ResumeState = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-
-        // const initialData = await fetch('/api/teams/', {
-        //   method: 'POST',
-        //   headers: defaultHeaders,
-        //   body: JSON.stringify(values),
-        // });
-      
+      try {      
         const response = await axios.get('/api/resume/'); // Replace with the actual path to your db.json
         console.log(response)
         setFormData(response.data.data.resume);

@@ -2,7 +2,7 @@ import React from 'react';
 import './Classic.module.css';
 import { Col, Container, Row } from 'react-bootstrap';
 import DOMPurify from 'dompurify';
-import { FaLinkedin, FaGithub, FaGlobe } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaGlobe, FaUserCircle } from 'react-icons/fa';
 
 const ClassicTheme = (props) => {
   const { formData, componentRef } = props;

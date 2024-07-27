@@ -5,14 +5,13 @@ import './NavBar.module.css';
 import ResumeContext from '@/components/Context/ResumeContext';
 import GenericModal from '../SharedComponent/GenericModal.component';
 import Image from 'next/image';
+import { FaUserCircle } from 'react-icons/fa';
 
 const NavBar = () => {
-  const { handlePrint } = useContext(ResumeContext);
+ 
   const templates = [{ name: 'Template 1' }, { name: 'Template 2' }];
   const colours = [{ name: 'Red' }, { name: 'Blue' }];
-  const [showModal, setShowModal] = useState(false);
-  const handleOpen = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="sticky-top">
@@ -51,34 +50,7 @@ const NavBar = () => {
               ))}
             </NavDropdown>
           </Nav>
-          <div className="d-flex">
-            <Button
-              variant="outline-light"
-              onClick={handleOpen}
-              className="ml-2"
-            >
-              CUSTOMIZE RESUME
-            </Button>
-            <GenericModal show={showModal} handleClose={handleClose} />
-
-            <Button
-              variant="outline-light"
-              // onClick={onSaveProgress}
-              className="ml-2"
-            >
-              SAVE PROGRESS
-            </Button>
-            <Button variant="outline-light" className="ml-2">
-              LOAD PROGRESS
-            </Button>
-            <Button
-              variant="outline-light"
-              onClick={handlePrint}
-              className="ml-2"
-            >
-              DOWNLOAD AS PDF
-            </Button>
-          </div>
+          <FaUserCircle className="me-2" />
         </Navbar.Collapse>
       </Container>
     </Navbar>
