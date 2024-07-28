@@ -6,20 +6,14 @@ import RichEditor from '../SharedComponent/RichEditor.component';
 import { convertToHTML, convertFromHTML } from 'draft-convert';
 import { EditorState } from 'draft-js';
 
-const BasicDetails = ({
-  formData,
-  setFormData,
-  handleInputChange,
-  handleAboutChange,
-  onBack,
-}) => {
+const BasicDetails = ({ formData, setFormData, handleInputChange, onBack }) => {
   const [key, setKey] = useState('contacts');
 
   useEffect(() => {
     if (formData.aboutModal) {
       /* empty */
     }
-  }, [formData.about]);
+  }, [formData.about, formData.aboutModal]);
 
   const handleAboutContentChange = (formDataChange) => {
     setFormData((prevFormData) => ({
