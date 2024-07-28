@@ -15,7 +15,6 @@ import '../styles/globals.css';
 import env from '@/lib/env';
 import { Theme, applyTheme } from '@/lib/theme';
 import app from '@/lib/app';
-import NavBar from '@/components/NavBar/NavBar'
 import 'bootstrap/dist/css/bootstrap.css';
 // Put any other imports below so that CSS from your
 // components takes precedence over default styles.

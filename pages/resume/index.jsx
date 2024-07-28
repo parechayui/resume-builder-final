@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import ResumeContext from '@/components/Context/ResumeContext';
 import ClassicTheme from '@/components/Themes/Classic/ClassicTheme';
 import Sidebar from '@/components/Sidebar/Sidebar';
+import NavBar from '@/components/NavBar/NavBar';
 
 const Index = () => {
   const {
@@ -14,6 +15,7 @@ const Index = () => {
 
   return (
     <>
+      <NavBar />
       <div className="container-fluid custom-container">
         <div className="row custom-row">
           <div className="col-md-6 fixed-column">
