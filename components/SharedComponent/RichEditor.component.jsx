@@ -1,8 +1,11 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable i18next/no-literal-string */
 import React, { useState, useEffect } from 'react';
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import { convertToHTML, convertFromHTML } from 'draft-convert';
 import dynamic from 'next/dynamic';
-import SuggestedPhrasesButton from '../SharedComponent/SharedButton.component';
+import SuggestedPhrasesModal from './SuggestedPhrasesModal.component';
+import { Button } from 'react-bootstrap';
 
 // Dynamically import the Editor component with SSR disabled
 const Editor = dynamic(
@@ -14,7 +17,9 @@ const RichEditor = ({ initialData, handleDataChange, showCustomButtons }) => {
   const [editorState, setEditorState] = useState(() => {
     if (initialData) {
       const contentState = convertFromHTML(initialData);
-      return EditorState.createWithContent(contentState);
+      if (contentState) {
+        return EditorState.createWithContent(contentState);
+      }
     }
     return EditorState.createEmpty();
   });
@@ -22,42 +27,59 @@ const RichEditor = ({ initialData, handleDataChange, showCustomButtons }) => {
   useEffect(() => {
     if (initialData) {
       const contentState = convertFromHTML(initialData);
-      setEditorState(EditorState.createWithContent(contentState));
+      if (contentState) {
+        setEditorState(EditorState.createWithContent(contentState));
+      }
+    } else {
+      setEditorState(EditorState.createEmpty());
     }
   }, [initialData]);
 
-  const onEditorStateChange = (newState) => {
-    setEditorState(newState);
-    const content = newState.getCurrentContent();
-    handleDataChange(convertToHTML(content));
+  const handleChange = (newEditorState) => {
+    const html = convertToHTML(newEditorState.getCurrentContent());
+    handleDataChange(html);
+    setEditorState(newEditorState);
+  };
+
+  const [showModal, setShowModal] = useState(false);
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleAcceptChanges = (newData) => {
+    const contentState = convertFromHTML(newData);
+    if (contentState) {
+      const newEditorState = EditorState.createWithContent(contentState);
+      handleChange(newEditorState);
+    }
   };
 
   return (
-    <Editor
-      defaultEditorState={editorState}
-      onEditorStateChange={onEditorStateChange}
-      wrapperClassName="wrapper-class"
-      editorClassName="editor-class"
-      toolbarClassName="toolbar-class"
-      toolbarCustomButtons={
-        showCustomButtons
-          ? [
-              // eslint-disable-next-line react/jsx-key
-              <SuggestedPhrasesButton
-                initialData={initialData}
-                defaultEditorState={initialData}
-                handleDataChange={handleDataChange}
-              />,
-            ]
-          : []
-      }
-      toolbar={{
-        options: ['inline', 'blockType', 'list', 'history'],
-        inline: {
-          options: ['bold', 'italic', 'underline'],
-        },
-      }}
-    />
+    <div>
+      <Editor
+        editorState={editorState}
+        onEditorStateChange={handleChange}
+        wrapperClassName="wrapper-class"
+        editorClassName="editor-class"
+        toolbarClassName="toolbar-class"
+        toolbarCustomButtons={
+          showCustomButtons
+            ? [<Button onClick={handleOpenModal}>Suggested Phrases</Button>]
+            : []
+        }
+        toolbar={{
+          options: ['inline', 'blockType', 'list', 'link', 'history'],
+          inline: {
+            options: ['bold', 'italic', 'underline'],
+          },
+        }}
+      />
+      <SuggestedPhrasesModal
+        initialData={convertToHTML(editorState.getCurrentContent())}
+        handleClose={handleCloseModal}
+        show={showModal}
+        handleAccept={handleAcceptChanges}
+      />
+    </div>
   );
 };
 

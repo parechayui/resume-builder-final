@@ -895,3 +895,13 @@ line-height: 1.75rem;
   color: #000;
   cursor: pointer;
 }
+
+.btn-2 {
+  width: 107px !important;
+  height: 40px !important;
+}
+
+.btn-3 {
+  width: 107px !important;
+  height: 40px !important;
+}
