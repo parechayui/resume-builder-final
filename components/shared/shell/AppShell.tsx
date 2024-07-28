@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { Loading } from '@/components/shared';
 import { useSession } from 'next-auth/react';
 import React from 'react';
-import Header from './Header';
-import Drawer from './Drawer';
 import { useRouter } from 'next/navigation';
-import Brand from './Brand';
-import NavBar from '@/components/NavBar/NavBar';
 
 export default function AppShell({ children }) {
   const router = useRouter();
@@ -24,7 +20,6 @@ export default function AppShell({ children }) {
 
   return (
     <div>
-      <NavBar />
       {/* <Drawer sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
 
      

@@ -3,21 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, Form, FloatingLabel } from 'react-bootstrap';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import RichEditor from '../SharedComponent/RichEditor.component';
+import { convertToHTML, convertFromHTML } from 'draft-convert';
+import { EditorState } from 'draft-js';
 
-const BasicDetails = ({
-  formData,
-  setFormData,
-  handleInputChange,
-  handleAboutChange,
-  onBack,
-}) => {
+const BasicDetails = ({ formData, setFormData, handleInputChange, onBack }) => {
   const [key, setKey] = useState('contacts');
 
   useEffect(() => {
     if (formData.aboutModal) {
       /* empty */
     }
-  }, [formData.about]);
+  }, [formData.about, formData.aboutModal]);
 
   const handleAboutContentChange = (formDataChange) => {
     setFormData((prevFormData) => ({
@@ -39,6 +35,10 @@ const BasicDetails = ({
       },
     }));
   };
+
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(convertFromHTML(formData.about.content))
+  );
 
   return (
     <div className="basic-details">
@@ -190,7 +190,9 @@ const BasicDetails = ({
                 </Form.Group>
                 <div className="m-2">
                   <RichEditor
-                    initialData={formData.about?.content || 'Normal Data'}
+                    initialData={convertToHTML(editorState.getCurrentContent())}
+                    editorState={editorState}
+                    setEditorState={setEditorState}
                     handleDataChange={handleAboutContentChange}
                     showCustomButtons={true}
                   />
