@@ -33,12 +33,10 @@ export const getBaseResume = async (key: { userId: string }) => {
   });
 };
 
+
+
 //Upsert or UpdateBase Resume
-export const updateBaseResume = async (
-  userId: string,
-  resume: object,
-  keywords: object,
-) => {
+export const updateBaseResume = async (userId: string, resume,keywords) => {
   return await prisma.baseResume.upsert({
     create: {
       userId,

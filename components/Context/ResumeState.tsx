@@ -1,8 +1,6 @@
 import ResumeContext from './ResumeContext';
 import { useState, useRef, useEffect } from 'react';
 import { useReactToPrint } from 'react-to-print';
-import { UseDataFetch } from '../../Utils/UseDataFetch';
-import context from 'react-bootstrap/esm/AccordionContext';
 import axios from 'axios'
 
 const ResumeState = (props) => {
@@ -28,15 +26,27 @@ const ResumeState = (props) => {
     fetchData();
   }, []);
 
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    onBeforePrint: () => {
-      setLoading(true);
-    },
-    onAfterPrint: () => {
-      setLoading(false);
-    },
-  });
+  const saveResumeData = async () => {
+    setFormData(formData);
+
+
+    try {
+      const response = await axios.patch('/api/resume', {
+        resume: formData,
+        keywords: {},
+        userId: '12e1a4de-4598-48f1-ae83-f02b3c1a08ae'
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Data saved successfully:', response.data);
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -86,7 +96,7 @@ const ResumeState = (props) => {
         handleAboutChange,
         setFormData,
         componentRef,
-        handlePrint: handlePrint,
+        saveResumeData
       }}
     >
       {props.children}

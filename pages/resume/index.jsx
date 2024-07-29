@@ -11,6 +11,7 @@ const Index = () => {
     componentRef,
     handleInputChange,
     handleAboutChange,
+    saveResumeData
   } = useContext(ResumeContext);
 
   return (
@@ -24,6 +25,7 @@ const Index = () => {
               setFormData={setFormData}
               handleInputChange={handleInputChange}
               handleAboutChange={handleAboutChange}
+              saveResumeData={saveResumeData}
             />
           </div>
           <div className="col-md-6 scrollable-column">

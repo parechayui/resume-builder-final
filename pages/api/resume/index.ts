@@ -1,5 +1,5 @@
 import { ApiError } from '@/lib/errors';
-import { createBaseResume, getBaseResume } from 'models/baseResume';
+import { createBaseResume, getBaseResume, updateBaseResume } from 'models/baseResume';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import { baseResumeSchema, validateWithSchema } from '@/lib/zod';
@@ -19,6 +19,9 @@ export default async function handler(
       case 'POST':
         await handlePOST(req, res);
         break;
+      case 'PATCH':
+          await handlePATCH(req, res);
+          break;
       default:
         res.setHeader('Allow', 'GET, POST');
         res.status(405).json({
@@ -46,21 +49,24 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 // Create a base resume
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
   const user = await getCurrentUser(req, res);
+  const { userId, resume, keywords } = req.body;
   const baseResume = await createBaseResume({
-    userId: user.id,
-    resume: req.body.resume,
-    keywords: req.body.keywords
+    userId,
+    resume,
+    keywords
   });
 
- // recordMetric('team.created');
-
+ // recordMetric('baseResume.created');
   res.status(200).json({ data: baseResume }); 
- 
+};
 
 
-
+// Create a base resume
+const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
+  const user = await getCurrentUser(req, res);
+  const { userId, resume, keywords } = req.body;
+  const baseResume = await updateBaseResume(userId, resume, keywords);
 
  // recordMetric('baseResume.created');
-
- // res.status(200).json({ data: baseResume });
+  res.status(200).json({ data: baseResume }); 
 };

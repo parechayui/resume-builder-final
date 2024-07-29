@@ -16,15 +16,16 @@ const Sidebar = ({
   setFormData,
   handleInputChange,
   handleAboutChange,
+  saveResumeData
 }) => {
   const [activeSection, setActiveSection] = useState(null);
   const { handlePrint } = useContext(ResumeContext);
   const [showModal, setShowModal] = useState(false);
   const handleOpen = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
-
   const onSaveProgress = () => {
     setFormData(formData);
+    saveResumeData();
   };
 
   const onReset = () => {};
