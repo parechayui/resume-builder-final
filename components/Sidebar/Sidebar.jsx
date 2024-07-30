@@ -9,7 +9,6 @@ import LanguagesComponent from './LanguagesComponent';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import ResumeContext from '@/components/Context/ResumeContext';
 import GenericModal from '../SharedComponent/GenericModal.component';
-import Image from 'next/image';
 
 const Sidebar = ({
   formData,

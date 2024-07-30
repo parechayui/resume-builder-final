@@ -15,45 +15,46 @@ const NavBar = () => {
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="sticky-top">
-      <Container fluid>
-        <Navbar.Brand href="#">
-          <Image
-            src="/logo.png"
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-            alt="Logo"
-          />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
-            navbarScroll
-          >
-            <NavDropdown
-              title={`TEMPLATES (${templates.length})`}
-              id="basic-nav-dropdown"
-            >
-              {templates.map((template, index) => (
-                <NavDropdown.Item key={index} href={`#template${index}`}>
-                  {template.name}
-                </NavDropdown.Item>
-              ))}
-            </NavDropdown>
-            <NavDropdown title="COLOURS" id="basic-nav-dropdown">
-              {colours.map((colour, index) => (
-                <NavDropdown.Item key={index} href={`#colour${index}`}>
-                  {colour.name}
-                </NavDropdown.Item>
-              ))}
-            </NavDropdown>
-          </Nav>
-          <FaUserCircle className="me-2" />
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <Container fluid>
+      <Navbar.Brand href="#">
+        <Image
+          src="/logo.png"
+          width="30"
+          height="30"
+          className="d-inline-block align-top"
+          alt="Logo"
+        />
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="navbarScroll" />
+      <Navbar.Collapse id="navbarScroll">
+        <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
+          {/* <NavDropdown title={`TEMPLATES (${templates.length})`} id="basic-nav-dropdown">
+            {templates.map((template, index) => (
+              <NavDropdown.Item key={index} href={`#template${index}`}>
+                {template.name}
+              </NavDropdown.Item>
+            ))}
+          </NavDropdown>
+          <NavDropdown title="COLOURS" id="basic-nav-dropdown">
+            {colours.map((colour, index) => (
+              <NavDropdown.Item key={index} href={`#colour${index}`}>
+                {colour.name}
+              </NavDropdown.Item>
+            ))}
+          </NavDropdown> */}
+          <Nav.Link href="#blog">Blog</Nav.Link>
+          <Nav.Link href="#resume-builder">Resume Builder</Nav.Link>
+          <Nav.Link href="#portfolio-builder">Portfolio Builder</Nav.Link>
+          <Nav.Link href="#chat-bot">Chat Bot</Nav.Link>
+        </Nav>
+        <Nav>
+          <NavDropdown title={<FaUserCircle />} id="user-dropdown">
+            <NavDropdown.Item href="#logout">Log Out</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
+      </Navbar.Collapse>
+    </Container>
+  </Navbar>
   );
 };
 export default NavBar;
