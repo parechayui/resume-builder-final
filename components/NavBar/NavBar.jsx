@@ -28,7 +28,13 @@ const NavBar = () => {
       <Navbar.Toggle aria-controls="navbarScroll" />
       <Navbar.Collapse id="navbarScroll">
         <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
-          {/* <NavDropdown title={`TEMPLATES (${templates.length})`} id="basic-nav-dropdown">
+  
+  
+          
+          {/* Note to LoveKumar, let's have a template changes in the sideBar view. We don't need for now.
+          
+          
+          <NavDropdown title={`TEMPLATES (${templates.length})`} id="basic-nav-dropdown">
             {templates.map((template, index) => (
               <NavDropdown.Item key={index} href={`#template${index}`}>
                 {template.name}
