@@ -1,3 +1,4 @@
+/* eslint-disable i18next/no-literal-string */
 import React from 'react';
 import './Classic.module.css';
 import { Col, Container, Row } from 'react-bootstrap';
@@ -19,6 +20,7 @@ const ClassicTheme = (props) => {
   }
 
   function formatDateString(dateString) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [day, month, year] = dateString.split('-');
     const monthNames = [
       'Jan',
@@ -147,8 +149,11 @@ const ClassicTheme = (props) => {
                                 ? formatDateString(experienceTitle.startDate)
                                 : '';
                               let endDate = experienceTitle.endDate
-                                ? formatDateString(experienceTitle.endDate)
+                                ? experienceTitle.endDate === 'Present'
+                                  ? 'Present'
+                                  : formatDateString(experienceTitle.endDate)
                                 : '';
+
                               return (
                                 <div className="text-sm" key={index}>
                                   <div>
@@ -161,18 +166,24 @@ const ClassicTheme = (props) => {
                                       </p>
                                       <div>
                                         <p className="text-date mb-0">
-                                          {startDate} - {endDate}
+                                          {startDate} -{' '}
+                                          {experienceTitle.currentlyWorking
+                                            ? 'Present'
+                                            : endDate}
                                         </p>
                                       </div>
                                     </div>
                                     <div className="text-date mt-0.5">
                                       <div className="list">
                                         <ul className="mb-2">
-                                          {experienceTitle?.impact?.map(
-                                            (impact, index) => (
-                                              <li key={index}>{impact}</li>
-                                            )
-                                          )}
+                                          {Array.isArray(
+                                            experienceTitle.impact
+                                          ) &&
+                                            experienceTitle.impact.map(
+                                              (impact, index) => (
+                                                <li key={index}>{impact}</li>
+                                              )
+                                            )}
                                         </ul>
                                       </div>
                                     </div>

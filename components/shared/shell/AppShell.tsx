@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function AppShell({ children }) {
   const router = useRouter();
   const { status } = useSession();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   if (status === 'loading') {
