@@ -1,7 +1,7 @@
 /* eslint-disable i18next/no-literal-string */
 import React from "react";
 import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-//import ResumeContext from "../../Context/ResumeContext";
+import Image from 'next/image'
 
 const NavBar = () => {
   //const { handlePrint } = useContext(ResumeContext);
@@ -13,7 +13,7 @@ const NavBar = () => {
     <Navbar bg="dark" variant="dark" expand="lg" className="sticky-top">
       <Container fluid>
         <Navbar.Brand href="#">
-          <img
+          <Image
             src="./logo.png"
             width="30"
             height="30"

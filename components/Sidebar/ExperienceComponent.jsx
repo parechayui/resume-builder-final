@@ -1,77 +1,224 @@
 /* eslint-disable i18next/no-literal-string */
+// /* eslint-disable i18next/no-literal-string */
 import React, { useContext, useEffect, useState } from 'react';
 import { Accordion, Button, FloatingLabel, Form } from 'react-bootstrap';
 import ResumeContext from '../Context/ResumeContext';
 import { FaTrash } from 'react-icons/fa';
+import RichEditor from '../SharedComponent/RichEditor.component';
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
+import { convertToHTML } from 'draft-convert';
 
 const ExperienceComponent = ({ onBack }) => {
   const { formData, setFormData } = useContext(ResumeContext);
   const [experienceData, setExperienceData] = useState({});
+  const [editorStates, setEditorStates] = useState({});
 
   useEffect(() => {
     if (formData.experienceData) {
       setExperienceData(formData.experienceData);
+
+      const newEditorStates = {};
+      Object.keys(formData.experienceData).forEach((key) => {
+        const contentHTML =
+          formData.experienceData[key]?.impact.join('<br>') || '';
+        const blocksFromHTML = convertFromHTML(contentHTML);
+        const contentState = ContentState.createFromBlockArray(
+          blocksFromHTML.contentBlocks,
+          blocksFromHTML.entityMap
+        );
+        newEditorStates[key] = EditorState.createWithContent(contentState);
+      });
+      setEditorStates(newEditorStates);
     }
-  }, [formData.experienceData]);
+  }, []);
 
-  const handleChangeExperience = (e, id) => {
-    const { name, value, checked, type } = e.target;
+  const handleChangeExperience = (e) => {
+    const { name, value, id, checked, type } = e.target;
+    const experienceTitleIndex = id.replace(/\D+/g, ''); // extract the number from the id
+    const experienceTitleKey = `experienceTitles${experienceTitleIndex}`;
 
-    const updatedExperience = {
-      ...experienceData[id],
-      [name]: type === 'checkbox' ? checked : value,
-    };
+    setExperienceData((prevExperienceData) => {
+      const updatedExperienceData = {
+        ...prevExperienceData,
+        [experienceTitleKey]: {
+          ...prevExperienceData[experienceTitleKey],
+          [name]: type === 'checkbox' ? checked : value,
+        },
+      };
 
-    const updatedExperienceData = {
-      ...experienceData,
-      [id]: updatedExperience,
-    };
+      if (name === 'currentlyWorking') {
+        if (checked) {
+          updatedExperienceData[experienceTitleKey].endDate = 'Present';
+        } else {
+          updatedExperienceData[experienceTitleKey].endDate = '';
+        }
+      }
 
-    setExperienceData(updatedExperienceData);
-    updateFormData(updatedExperienceData);
-  };
-
-  const handleDeleteExperience = (id) => {
-    const { [id]: deletedItem, ...rest } = experienceData;
-
-    setExperienceData(rest);
-    updateFormData(rest);
-  };
-
-  const handleExperienceClick = () => {
-    const newId = `experienceTitles${Object.keys(experienceData).length + 1}`;
-
-    setExperienceData((prevExperienceData) => ({
-      ...prevExperienceData,
-      [newId]: {
-        company: '',
-        position: '',
-        startDate: '',
-        endDate: '',
-        abouts: '',
-        currentlyWorking: false,
-      },
-    }));
-
-    updateFormData({
-      ...experienceData,
-      [newId]: {
-        company: '',
-        position: '',
-        startDate: '',
-        endDate: '',
-        abouts: '',
-        currentlyWorking: false,
-      },
+      return updatedExperienceData;
     });
   };
 
-  const updateFormData = (updatedExperienceData) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      experienceData: updatedExperienceData,
+  const handleImpactChange = (key, newEditorState) => {
+    setEditorStates((prevEditorStates) => ({
+      ...prevEditorStates,
+      [key]: newEditorState,
+    }));
+
+    const contentHTML = convertToHTML(newEditorState.getCurrentContent());
+    const newImpact = contentHTML.split('<br>').filter(Boolean); // Convert HTML to array
+    setExperienceData((prevExperienceData) => ({
+      ...prevExperienceData,
+      [key]: {
+        ...prevExperienceData[key],
+        impact: newImpact,
+      },
     }));
   };
+
+  const handleDeleteExperience = (index) => {
+    setExperienceData((prevExperienceData) => {
+      const newExperienceData = { ...prevExperienceData };
+      delete newExperienceData[`experienceTitles${index + 1}`];
+
+      // Reindex keys after deletion
+      const reorderedExperienceData = {};
+      Object.keys(newExperienceData).forEach((key, i) => {
+        reorderedExperienceData[`experienceTitles${i + 1}`] =
+          newExperienceData[key];
+      });
+
+      return reorderedExperienceData;
+    });
+  };
+
+  const handleExperienceClick = (e) => {
+    e.preventDefault();
+    const newCount = Object.keys(experienceData).length + 1;
+    const newKey = `experienceTitles${newCount}`;
+    setExperienceData((prevExperienceData) => ({
+      ...prevExperienceData,
+      [newKey]: {},
+    }));
+    setEditorStates((prevEditorStates) => ({
+      ...prevEditorStates,
+      [newKey]: EditorState.createEmpty(),
+    }));
+  };
+
+  const formatDate = (date) => {
+    if (!date || date === 'Present') return '';
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const createExperienceTemplate = (i, experience) => {
+    const key = `experienceTitles${i}`;
+    return (
+      <Accordion.Item key={i} eventKey={i}>
+        <Accordion.Header className="d-flex justify-content-between align-items-center accordion-items">
+          <span className="d-flex flex-grow-1">Experience {i}</span>
+          <FaTrash
+            className="delete-icon"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteExperience(i - 1);
+            }}
+          />
+        </Accordion.Header>
+        <Accordion.Body>
+          <Form>
+            <Form.Group>
+              <FloatingLabel label="Company" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Company"
+                  id={`company${i}`}
+                  name="company"
+                  value={experience.company || ''}
+                  onChange={handleChangeExperience}
+                />
+              </FloatingLabel>
+            </Form.Group>
+            <Form.Group>
+              <FloatingLabel label="Position" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter position"
+                  id={`position${i}`}
+                  name="position"
+                  value={experience.position || ''}
+                  onChange={handleChangeExperience}
+                />
+              </FloatingLabel>
+            </Form.Group>
+            <Form.Group>
+              <FloatingLabel label="Start Date" className="mb-3">
+                <Form.Control
+                  type="date"
+                  id={`startDate${i}`}
+                  name="startDate"
+                  value={formatDate(experience.startDate)}
+                  onChange={handleChangeExperience}
+                />
+              </FloatingLabel>
+            </Form.Group>
+            <Form.Group>
+              <FloatingLabel label="End Date" className="mb-3">
+                <Form.Control
+                  type="date"
+                  id={`endDate${i}`}
+                  name="endDate"
+                  value={
+                    experience.endDate === 'Present'
+                      ? ''
+                      : formatDate(experience.endDate)
+                  }
+                  onChange={handleChangeExperience}
+                  disabled={experience.currentlyWorking}
+                />
+              </FloatingLabel>
+            </Form.Group>
+            <Form.Group>
+              <p>Roles & Responsibility</p>
+              <RichEditor
+                initialData={
+                  Array.isArray(experience.impact)
+                    ? experience.impact.join('<br>')
+                    : ''
+                }
+                editorState={editorStates[key]}
+                setEditorState={(newEditorState) =>
+                  handleImpactChange(key, newEditorState)
+                }
+                handleDataChange={() => {}}
+                showCustomButtons={false}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Check
+                type="switch"
+                label="I currently work here"
+                id={`currentlyWorking${i}`}
+                name="currentlyWorking"
+                checked={experience.currentlyWorking || false}
+                onChange={handleChangeExperience}
+              />
+            </Form.Group>
+          </Form>
+        </Accordion.Body>
+      </Accordion.Item>
+    );
+  };
+
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      experienceData,
+    }));
+  }, [experienceData, setFormData]);
 
   return (
     <div className="basic-details">
@@ -84,87 +231,12 @@ const ExperienceComponent = ({ onBack }) => {
       </h2>
       <div>
         <Accordion defaultActiveKey="0">
-          {Object.keys(experienceData).map((key, index) => (
-            <Accordion.Item key={key} eventKey={key}>
-              <Accordion.Header className="d-flex justify-content-between align-items-center accordion-items">
-                <span className="d-flex flex-grow-1">
-                  Experience {index + 1}
-                </span>
-                <FaTrash
-                  className="delete-icon"
-                  onClick={() => handleDeleteExperience(key)}
-                />
-              </Accordion.Header>
-              <Accordion.Body>
-                <Form>
-                  <Form.Group>
-                    <FloatingLabel label="Company" className="mb-3">
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter Company"
-                        name="company"
-                        value={experienceData[key]?.company || ''}
-                        onChange={(e) => handleChangeExperience(e, key)}
-                      />
-                    </FloatingLabel>
-                  </Form.Group>
-                  <Form.Group>
-                    <FloatingLabel label="Position" className="mb-3">
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter position"
-                        name="position"
-                        value={experienceData[key]?.position || ''}
-                        onChange={(e) => handleChangeExperience(e, key)}
-                      />
-                    </FloatingLabel>
-                  </Form.Group>
-                  <Form.Group>
-                    <FloatingLabel label="Start Date" className="mb-3">
-                      <Form.Control
-                        type="date"
-                        name="startDate"
-                        value={experienceData[key]?.startDate || ''}
-                        onChange={(e) => handleChangeExperience(e, key)}
-                      />
-                    </FloatingLabel>
-                  </Form.Group>
-                  <Form.Group>
-                    <FloatingLabel label="End Date" className="mb-3">
-                      <Form.Control
-                        type="date"
-                        name="endDate"
-                        value={experienceData[key]?.endDate || ''}
-                        onChange={(e) => handleChangeExperience(e, key)}
-                      />
-                    </FloatingLabel>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      name="abouts"
-                      value={experienceData[key]?.abouts || ''}
-                      onChange={(e) => handleChangeExperience(e, key)}
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Check
-                      type="switch"
-                      label="I currently work here"
-                      id={`currentlyWorking${key}`}
-                      name="currentlyWorking"
-                      checked={experienceData[key]?.currentlyWorking || false}
-                      onChange={(e) => handleChangeExperience(e, key)}
-                    />
-                  </Form.Group>
-                </Form>
-              </Accordion.Body>
-            </Accordion.Item>
-          ))}
+          {Object.keys(experienceData).map((key, index) =>
+            createExperienceTemplate(index + 1, experienceData[key])
+          )}
         </Accordion>
         <Button variant="primary" onClick={handleExperienceClick}>
-          Add More
+          Add More Experience
         </Button>
       </div>
     </div>
