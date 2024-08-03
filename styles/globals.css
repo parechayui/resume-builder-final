@@ -175,11 +175,6 @@ border: 0.5px solid black;
   line-height: 2.25rem;
 }
 
-.text-base {
-  text-align: left;
-  color: rgb(24, 144, 255);
-}
-
 .gap-3 {
   gap: .75rem;
 }
@@ -625,7 +620,7 @@ line-height: 1.75rem;
 
 .text-base {
   text-align: left;
-  color: rgb(24, 144, 255);
+  
 }
 
 .gap-3 {
