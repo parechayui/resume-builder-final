@@ -3,7 +3,7 @@ import type { SessionStrategy } from 'next-auth';
 const env = {
   databaseUrl: `${process.env.DATABASE_URL}`,
   appUrl: `${process.env.APP_URL}`,
-  redirectIfAuthenticated: 'http://localhost:4002/resumebuilder',
+  redirectIfAuthenticated: 'http://localhost:4002/resume',
 
   // SMTP configuration for NextAuth
   smtp: {
@@ -93,7 +93,7 @@ const env = {
     prefix: process.env.OTEL_PREFIX || 'boxyhq.saas',
   },
 
-  hideLandingPage: process.env.HIDE_LANDING_PAGE === 'false',
+  hideLandingPage: process.env.HIDE_LANDING_PAGE === 'true',
 
   darkModeEnabled: process.env.NEXT_PUBLIC_DARK_MODE !== 'false',
 

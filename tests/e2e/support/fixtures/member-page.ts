@@ -66,7 +66,7 @@ export class MemberPage {
   }
 
   private memberEntryRowRole(role: string) {
-    return this.page.getByRole('cell', { name: role });
+    return this.page.getByRole('cell', { name: role, exact: true });
   }
 
   private memberEntryRowEmail(email: string) {
@@ -81,7 +81,11 @@ export class MemberPage {
 
   async openInviteModal() {
     await this.inviteMemberButton.click();
-    await this.page.waitForSelector('text=Invite New Member');
+    await expect(
+      this.page.getByRole('heading', {
+        name: 'Invite New Member',
+      })
+    ).toBeVisible();
   }
 
   async fillEmailForInvite(email: string) {
@@ -99,7 +103,7 @@ export class MemberPage {
     await expect(this.page.getByText('Invitation sent!')).toBeVisible();
   }
 
-  async checkPendingInvitation(email: string, role: 'MEMBER' | 'OWNER') {
+  async checkPendingInvitation(email: string, role: string) {
     await this.pendingMemberVisible();
 
     await expect(this.memberEntryRowEmail(email)).toBeVisible();
@@ -126,7 +130,9 @@ export class MemberPage {
 
   async removeMember() {
     await this.removeMemberButton.click();
-    await this.page.waitForSelector('text=Confirm deletion of member');
+    await expect(
+      this.page.getByRole('heading', { name: 'Confirm deletion of member' })
+    ).toBeVisible();
     await this.deleteButtonForMember.click();
     await expect(
       this.page.getByText('Member deleted successfully.')

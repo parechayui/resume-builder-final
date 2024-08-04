@@ -166,36 +166,6 @@ const BasicDetails = ({ formData, setFormData, handleInputChange, onBack }) => {
                 />
               </FloatingLabel>
             </Form.Group>
-            <Form.Group controlId="formGithub">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Github"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Github URL"
-                  value={formData.github}
-                  name="github"
-                  onChange={handleInputChange}
-                />
-              </FloatingLabel>
-            </Form.Group>
-            <Form.Group controlId="formHackerrank">
-              <FloatingLabel
-                controlId="floatingInput"
-                label="Hackerrank"
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="Hackerrank"
-                  value={formData.hackerrank}
-                  name="hackerrank"
-                  onChange={handleInputChange}
-                />
-              </FloatingLabel>
-            </Form.Group>
           </Form>
         </Tab>
         <Tab eventKey="about" title="About">

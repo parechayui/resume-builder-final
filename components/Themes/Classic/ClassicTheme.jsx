@@ -3,7 +3,7 @@ import React from 'react';
 import './Classic.module.css';
 import { Col, Container, Row } from 'react-bootstrap';
 import DOMPurify from 'dompurify';
-import { FaLinkedin, FaGithub, FaGlobe } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaGlobe, FaUserCircle } from 'react-icons/fa';
 
 const ClassicTheme = (props) => {
   const { formData, componentRef } = props;
@@ -103,11 +103,12 @@ const ClassicTheme = (props) => {
                     </div>
                     <div className="text-center">
                       <a
-                        href={formData.portfolio}
+                        href={formData.websiteUrl}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="d-inline-flex align-items-center"
                       >
-                        <FaGlobe className="icons" /> myportfolio
+                        <FaGlobe className="me-2" /> myportfolio
                       </a>
                     </div>
                   </div>

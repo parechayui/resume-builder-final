@@ -26,6 +26,7 @@ import {
   image,
   eventTypes,
 } from './primitives';
+import { object } from 'yup';
 
 export const createApiKeySchema = z.object({
   name: name(50),
@@ -171,3 +172,8 @@ export const ssoVerifySchema = z
   .refine((data) => data.email || data.slug, {
     message: 'At least one of email or slug is required',
   });
+
+  export const baseResumeSchema = z.object({
+    userId: z.string().uuid()
+  });
+  

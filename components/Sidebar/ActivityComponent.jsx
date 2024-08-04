@@ -59,7 +59,7 @@ const Activity = ({ formData, setFormData, onBack }) => {
             <div className="m-2">
               <RichEditor
                 initialValue={formData.activities.content}
-                onChange={handleEditorChange}
+                handleDataChange={handleEditorChange}
                 showCustomButtons={true}
               />
             </div>

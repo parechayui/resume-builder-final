@@ -1,11 +1,6 @@
 import { test as base } from '@playwright/test';
 import { user, team, secondTeam } from '../support/helper';
-import {
-  JoinPage,
-  LoginPage,
-  SSOPage,
-  SettingsPage,
-} from '../support/fixtures';
+import { LoginPage, SSOPage, SettingsPage } from '../support/fixtures';
 
 const SSO_METADATA_URL = [
   `${process.env.MOCKSAML_ORIGIN}/api/saml/metadata`,
@@ -14,7 +9,6 @@ const SSO_METADATA_URL = [
 
 type SSOLoginFixture = {
   loginPage: LoginPage;
-  joinPage: JoinPage;
   ssoPageTeam: SSOPage;
   ssoPageSecondTeam: SSOPage;
   settingsPage: SettingsPage;
@@ -46,9 +40,8 @@ test('Create SSO connection for team', async ({
   await loginPage.goto();
   await loginPage.credentialLogin(user.email, user.password);
   await loginPage.loggedInCheck(team.slug);
-
   await ssoPage.goto();
-  await ssoPage.createSSOConnection(SSO_METADATA_URL[0]);
+  await ssoPage.createSSOConnection({ metadataUrl: SSO_METADATA_URL[0] });
 });
 
 test('Login with SSO', async ({ loginPage }) => {
@@ -57,11 +50,10 @@ test('Login with SSO', async ({ loginPage }) => {
   await loginPage.loggedInCheck(team.slug);
 });
 
-test('Create a new team', async ({ loginPage, settingsPage }) => {
+test('Create a new team', async ({ settingsPage, loginPage }) => {
   await loginPage.goto();
-  await loginPage.ssoLogin(user.email);
+  await loginPage.credentialLogin(user.email, user.password);
   await loginPage.loggedInCheck(team.slug);
-
   await settingsPage.createNewTeam(secondTeam.name);
 });
 
@@ -71,20 +63,20 @@ test('SSO login with 2 teams & one SSO connection', async ({
 }) => {
   await loginPage.goto();
   await loginPage.ssoLogin(user.email);
-  await settingsPage.isSettingsPageVisible();
+  await settingsPage.isLoggedIn();
 });
 
 test('Create SSO connection for new team', async ({
   loginPage,
-  settingsPage,
   ssoPageSecondTeam: ssoPage,
+  settingsPage,
 }) => {
   await loginPage.goto();
   await loginPage.ssoLogin(user.email);
-  await settingsPage.isSettingsPageVisible();
+  await settingsPage.isLoggedIn();
 
   await ssoPage.goto();
-  await ssoPage.createSSOConnection(SSO_METADATA_URL[1]);
+  await ssoPage.createSSOConnection({ metadataUrl: SSO_METADATA_URL[1] });
 });
 
 test('SSO login with 2 teams & two SSO connection', async ({
@@ -101,26 +93,28 @@ test('SSO login with 2 teams & two SSO connection', async ({
 
   await ssoPage.openEditSSOConnectionView();
   await ssoPage.deleteSSOConnection();
+  await ssoPage.checkEmptyConnectionList();
 });
 
 test('Delete SSO connection', async ({
   loginPage,
-  settingsPage,
   ssoPageTeam: ssoPage,
+  settingsPage,
 }) => {
   await loginPage.goto();
   await loginPage.ssoLogin(user.email);
-  await settingsPage.isSettingsPageVisible();
+  await settingsPage.isLoggedIn();
 
   await ssoPage.goto();
   await ssoPage.openEditSSOConnectionView();
   await ssoPage.deleteSSOConnection();
+  await ssoPage.checkEmptyConnectionList();
 });
 
 test('Remove second team', async ({ loginPage, settingsPage }) => {
   await loginPage.goto();
   await loginPage.credentialLogin(user.email, user.password);
-  await settingsPage.isSettingsPageVisible();
+  await settingsPage.isLoggedIn();
 
   await settingsPage.removeTeam(secondTeam.slug);
 });

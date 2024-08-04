@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import ResumeContext from '@/components/Context/ResumeContext';
-import Theme1 from '@/components/Themes/Classic/ClassicTheme';
+import ClassicTheme from '@/components/Themes/Classic/ClassicTheme';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import NavBar from '@/components/NavBar/NavBar';
 
@@ -11,6 +11,7 @@ const Index = () => {
     componentRef,
     handleInputChange,
     handleAboutChange,
+    saveResumeData
   } = useContext(ResumeContext);
 
   return (
@@ -24,10 +25,11 @@ const Index = () => {
               setFormData={setFormData}
               handleInputChange={handleInputChange}
               handleAboutChange={handleAboutChange}
+              saveResumeData={saveResumeData}
             />
           </div>
           <div className="col-md-6 scrollable-column">
-            <Theme1
+            <ClassicTheme
               componentRef={componentRef}
               formData={formData}
               setFormData={setFormData}

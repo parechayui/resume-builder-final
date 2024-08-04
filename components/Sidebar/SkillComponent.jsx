@@ -33,7 +33,7 @@ const SkillComponent = ({ onBack }) => {
           onClick={onBack}
           style={{ cursor: 'pointer' }}
         >
-          &larr; Skills and expertise
+          &larr; Skills
         </h2>
       </div>
       <Accordion defaultActiveKey="0">
