@@ -6,7 +6,7 @@ import { convertToHTML, convertFromHTML } from 'draft-convert';
 import { EditorState, Modifier, ContentState } from 'draft-js';
 import axios from 'axios';
 
-const SuggestedPhrasesModal = ({
+const AIModal = ({
   initialData,
   handleClose,
   show,
@@ -14,7 +14,6 @@ const SuggestedPhrasesModal = ({
 }) => {
   const [phrases, setPhrases] = useState([]);
   const [addedPhrases, setAddedPhrases] = useState([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState(null);
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(convertFromHTML(initialData))
@@ -25,8 +24,8 @@ const SuggestedPhrasesModal = ({
     const fetchData = async () => {
       try {
         const response = await axios.get('/db.json'); // Replace with the actual path to your db.json
-        console.log(response.data.getAboutPhrases.templatePhrases);
-        setPhrases(response.data.getAboutPhrases.templatePhrases);
+        console.log(response.data.getAboutPhrases.phrases);
+        setPhrases(response.data.getAboutPhrases.phrases);
       } catch (err) {
         setError(err);
       }
@@ -130,4 +129,4 @@ const SuggestedPhrasesModal = ({
   );
 };
 
-export default SuggestedPhrasesModal;
+export default AIModal;
