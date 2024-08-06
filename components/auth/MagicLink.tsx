@@ -90,6 +90,7 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
               active={formik.dirty}
               fullWidth
               size="md"
+              className='signup-button'
             >
               {t('send-magic-link')}
             </Button>

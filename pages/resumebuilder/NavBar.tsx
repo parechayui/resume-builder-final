@@ -14,7 +14,7 @@ const NavBar = () => {
       <Container fluid>
         <Navbar.Brand href="#">
           <Image
-            src="./logo.png"
+            src="/logo.png"
             width="30"
             height="30"
             className="d-inline-block align-top"

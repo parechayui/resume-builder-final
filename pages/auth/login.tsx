@@ -187,6 +187,7 @@ const Login: NextPageWithLayout<
                 active={formik.dirty}
                 fullWidth
                 size="md"
+                className='signup-button'
               >
                 {t('sign-in')}
               </Button>
@@ -203,7 +204,7 @@ const Login: NextPageWithLayout<
           {authProviders.email && (
             <Link
               href={`/auth/magic-link${params}`}
-              className="btn btn-outline w-full"
+              className="btn btn-outline w-full signup-button"
             >
               &nbsp;{t('sign-in-with-email')}
             </Link>

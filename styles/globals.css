@@ -901,7 +901,31 @@ line-height: 1.75rem;
   height: 40px !important;
 }
 
+.form-control {
+  display: flex !important;
+  flex-direction: column !important;
+  border: none !important;
+}
 .btn-3 {
   width: 107px !important;
   height: 40px !important;
+}
+
+.text-top {
+  top: 55px;
+  right: 1.5rem;
+}
+
+.social-button{
+  display: flex !important;
+}
+
+.signup-button {
+  padding: 18px 11px 18px 10px !important;
+  height: 10px !important;
+  min-height: 10px !important;
+  line-height: 1.5px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  margin-top: 5px;
 }
