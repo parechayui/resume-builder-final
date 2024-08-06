@@ -929,3 +929,22 @@ line-height: 1.75rem;
   font-weight: 500 !important;
   margin-top: 5px;
 }
+
+.ss-email{
+    border-color: currentColor !important;
+    background-color: transparent !important;
+    --tw-text-opacity: 1 !important;
+    color: var(--fallback-bc, oklch(var(--bc) / var(--tw-text-opacity))) !important;
+    --tw-shadow: 0 0 #0000 !important;
+    --tw-shadow-colored: 0 0 #0000 !important;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+}
+
+.ss-email:hover {
+  --tw-border-opacity: 1 !important;
+  border-color: var(--fallback-bc, oklch(var(--bc) / var(--tw-border-opacity))) !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: var(--fallback-bc, oklch(var(--bc) / var(--tw-bg-opacity))) !important;
+  --tw-text-opacity: 1 !important;
+  color: var(--fallback-b1, oklch(var(--b1) / var(--tw-text-opacity))) !important;
+}

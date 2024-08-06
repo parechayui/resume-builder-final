@@ -14,7 +14,7 @@ const GoogleButton = () => {
 
   return (
     <Button
-      className="btn btn-outline w-full social-button"
+      className="btn btn-outline w-full social-button ss-email"
       onClick={() => {
         signIn('google', {
           callbackUrl,
