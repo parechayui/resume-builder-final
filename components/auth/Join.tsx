@@ -140,6 +140,7 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
           active={formik.dirty}
           fullWidth
           size="md"
+          className='signup-button'
         >
           {t('create-account')}
         </Button>
