@@ -10,7 +10,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'boxyhq.com',
+        hostname: 'realtyiqs.com',
       },
       {
         protocol: 'https',
@@ -51,6 +51,15 @@ const nextConfig = {
         ],
       },
     ];
+  },
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      config.devtool = 'source-map'; // Enable source maps for debugging
+    }
+
+    // Additional configurations or customizations can go here
+
+    return config;
   },
 };
 
