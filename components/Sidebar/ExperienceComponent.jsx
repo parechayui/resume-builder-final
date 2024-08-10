@@ -58,23 +58,39 @@ const ExperienceComponent = ({ onBack }) => {
     });
   };
 
-  const handleImpactChange = (key, newEditorState) => {
-    setEditorStates((prevEditorStates) => ({
-      ...prevEditorStates,
-      [key]: newEditorState,
-    }));
+  // const handleImpactChange = (experienceKey, newImpactArray) => {
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     experienceData: {
+  //       ...prevFormData.experienceData,
+  //       [experienceKey]: {
+  //         ...prevFormData.experienceData[experienceKey],
+  //         impact: newImpactArray,
+  //       },
+  //     },
+  //   }));
+  // };
 
-    const contentHTML = convertToHTML(newEditorState.getCurrentContent());
-    const newImpact = contentHTML.split('<br>').filter(Boolean); // Convert HTML to array
-    setExperienceData((prevExperienceData) => ({
-      ...prevExperienceData,
-      [key]: {
-        ...prevExperienceData[key],
-        impact: newImpact,
+  const handleImpactChange = (experienceKey, newImpactHTML) => {
+    // Convert HTML content to plain text
+    const newImpactArray = newImpactHTML
+      .split('<br>')
+      .map((item) => item.replace(/<[^>]+>/g, '').trim()) // Strip out HTML tags
+      .filter(Boolean); // Remove any empty strings
+  
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      experienceData: {
+        ...prevFormData.experienceData,
+        [experienceKey]: {
+          ...prevFormData.experienceData[experienceKey],
+          impact: newImpactArray,
+        },
       },
     }));
   };
-
+  
+  
   const handleDeleteExperience = (index) => {
     setExperienceData((prevExperienceData) => {
       const newExperienceData = { ...prevExperienceData };
@@ -193,7 +209,7 @@ const ExperienceComponent = ({ onBack }) => {
                 setEditorState={(newEditorState) =>
                   handleImpactChange(key, newEditorState)
                 }
-                handleDataChange={() => {}}
+                handleDataChange={(html) => handleImpactChange(key, html)}
                 showCustomButtons={false}
               />
             </Form.Group>
