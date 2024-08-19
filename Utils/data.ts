@@ -3,8 +3,11 @@ import { PortfolioData } from 'types/portfolio';
 export const globalData: PortfolioData = {
   profile: {
     name: 'Alex Johnson',
-    tag: 'Property Manager',
-    desc: 'Dynamic Senior Property Manager with over 15 years of comprehensive experience in managing multifamily residential properties. Proven track record of enhancing property value through innovative cost-management, tenant satisfaction improvements, and effective leadership of property management teams.',
+    title: 'Property Manager',
+    about:{
+      "title":"Accomplished Senior Software Engineer",
+      "content":"Changed Data"
+   }, 
     image: '/profile.png',
     stat: [
       { value: '5', label: 'Years of Experience' },

@@ -1,7 +1,10 @@
 export interface ProfileProps {
   name: string;
-  tag: string;
-  desc: string;
+  title: string;
+  about: {
+    title: string,
+    content: string
+  }
   image: string;
   stat: {
     value: string;

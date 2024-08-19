@@ -3,8 +3,8 @@ import { ProfileProps } from 'types/portfolio';
 
 export const ProfileSection = ({
   name,
-  tag,
-  desc,
+  title,
+  about,
   image,
   stat,
 }: ProfileProps) => {
@@ -15,10 +15,10 @@ export const ProfileSection = ({
           <div>
             <h1 className="text-7xl sm:text-7xl 3xl:text-8xl">{name}</h1>
             <button className="mt-3 font-bold text-[22px] text-white bg-[#1C64F2] max-w-fit px-4 py-2.5 rounded-lg skew-x-1 xl:skew-x-2 transition duration-300 ease-in-out -rotate-3 xl:-rotate-[4deg] hover:rotate-0 cursor-pointer">
-              {tag}
+              {title}
             </button>
           </div>
-          <p className="text-[#4B5563] font-semibold sm:text-lg ">{desc}</p>
+          <p className="text-[#4B5563] font-semibold sm:text-lg ">{about.content}</p>
         </div>
         <div className="shrink-0">
           <Image

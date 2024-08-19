@@ -72,7 +72,7 @@ const AIModal = ({
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Suggested Phrases</Modal.Title>
+        <Modal.Title>AI Phrases</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="container">
