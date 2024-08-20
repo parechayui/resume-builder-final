@@ -200,17 +200,16 @@ const ExperienceComponent = ({ onBack }) => {
             <Form.Group>
               <p>Roles & Responsibility</p>
               <RichEditor
-                initialData={
-                  Array.isArray(experience.impact)
-                    ? experience.impact.join('<br>')
-                    : ''
+                initialData={convertToHTML(editorStates[key].getCurrentContent(Array.isArray(experience.impact)
+                  ? experience.impact.join('<br>')
+                  : ''))
                 }
                 editorState={editorStates[key]}
                 setEditorState={(newEditorState) =>
                   handleImpactChange(key, newEditorState)
                 }
                 handleDataChange={(html) => handleImpactChange(key, html)}
-                showCustomButtons={false}
+                showCustomButtons={true}
               />
             </Form.Group>
             <Form.Group>
