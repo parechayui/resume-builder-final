@@ -64,8 +64,14 @@ const RichEditor = ({ initialData, handleDataChange, showCustomButtons }) => {
         toolbarClassName="toolbar-class"
         toolbarCustomButtons={
           showCustomButtons
-            ? [<Button onClick={handleOpenModal}>Suggested Phrases</Button>,
-            <Button className="gap-2" onClick={handleOpenModal}>AI Generate</Button>]
+            ? [
+                <Button onClick={handleOpenModal} className="new-css">
+                  Suggested Phrases
+                </Button>,
+                <Button className="gap-2 new-css" onClick={handleOpenModal}>
+                  AI Generate
+                </Button>,
+              ]
             : []
         }
         toolbar={{
@@ -81,7 +87,7 @@ const RichEditor = ({ initialData, handleDataChange, showCustomButtons }) => {
         show={showModal}
         handleAccept={handleAcceptChanges}
       />
-       <AIModal
+      <AIModal
         initialData={convertToHTML(editorState.getCurrentContent())}
         handleClose={handleCloseModal}
         show={showModal}

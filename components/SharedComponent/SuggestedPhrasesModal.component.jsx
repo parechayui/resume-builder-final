@@ -115,7 +115,7 @@ const SuggestedPhrasesModal = ({
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose} className="btn-3">
+        <Button variant="primary" onClick={handleClose} className="btn-3">
           Close
         </Button>
         <Button

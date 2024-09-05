@@ -6,12 +6,7 @@ import { convertToHTML, convertFromHTML } from 'draft-convert';
 import { EditorState, Modifier, ContentState } from 'draft-js';
 import axios from 'axios';
 
-const AIModal = ({
-  initialData,
-  handleClose,
-  show,
-  handleAccept,
-}) => {
+const AIModal = ({ initialData, handleClose, show, handleAccept }) => {
   const [phrases, setPhrases] = useState([]);
   const [addedPhrases, setAddedPhrases] = useState([]);
   const [error, setError] = useState(null);
@@ -114,7 +109,7 @@ const AIModal = ({
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose} className="btn-3">
+        <Button variant="primary" onClick={handleClose} className="btn-3">
           Close
         </Button>
         <Button

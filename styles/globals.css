@@ -447,6 +447,8 @@ line-height: 1.75rem;
 .content-ul {
   list-style-type: none;
   padding: 0;
+  height: 350px;
+  overflow: auto;
 }
 
 .content-ul li {
@@ -889,6 +891,7 @@ line-height: 1.75rem;
   line-height: 18px;
   color: #000;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .btn-2 {
@@ -947,4 +950,8 @@ line-height: 1.75rem;
   border: var(--bs-border-width) solid var(--bs-border-color) !important;
   border-radius: var(--bs-border-radius) !important;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.new-css {
+  margin: 10px !important;
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import './Classic.module.css';
 import { Col, Container, Row } from 'react-bootstrap';
 import DOMPurify from 'dompurify';
-import { FaLinkedin, FaGithub, FaGlobe, FaUserCircle } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaGlobe } from 'react-icons/fa';
 
 const ClassicTheme = (props) => {
   const { formData, componentRef } = props;
@@ -222,7 +222,9 @@ const ClassicTheme = (props) => {
                 </Row>
                 {/* Education Starts */}
                 <div>
-                  <div className="summary">Education</div>
+                  <div className="summary" style={{ marginTop: '-24px' }}>
+                    Education
+                  </div>
                   <div className="classic-summary py-1">
                     <Container fluid>
                       <Row className="d-flex align-items-center flex-wrap gap-2 py-2">
